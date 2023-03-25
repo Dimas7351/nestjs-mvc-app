@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { AuthorsModule } from './authors/authors.module';
+import { DatasourceModule } from './datasource/datasource.module';
 
 @Module({
-  imports: [AuthorsModule],
+  imports: [AuthorsModule, DatasourceModule],
   controllers: [],
   providers: [],
 })
