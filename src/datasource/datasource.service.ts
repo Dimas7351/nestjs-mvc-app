@@ -1,11 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { Author } from 'src/authors/entities/author.entity';
+import { Doctor } from 'src/authors/entities/doctor.entity';
+import { Patient } from 'src/patients/entities/patient.entity'
 
 @Injectable()
 export class DatasourceService {
-  private authors: Author[] = [];
+  private authors: Doctor[] = [];
+  private patients: Patient[] = [];
 
-  getAuthors(): Author[] {
+  getDoctors(): Doctor[] {
     return this.authors;
   }
+
+  getPatients(): Patient[] {
+    return this.patients;
+  }
+
 }
