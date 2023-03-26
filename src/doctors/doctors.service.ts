@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Doctor } from 'src/authors/entities/doctor.entity';
+import { Doctor } from 'src/doctors/entities/doctor.entity';
 import { DatasourceService } from 'src/datasource/datasource.service';
 import { HttpStatus } from '@nestjs/common';
 

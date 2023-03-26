@@ -1,5 +1,5 @@
-export class Doctor {
+export class Amenity {
     id: number;
     fullname: string;
-    age: number;
+    cost: number;
   }
