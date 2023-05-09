@@ -1,4 +1,3 @@
-  import { Patient } from 'src/patients/entities/patient.entity';
   import { Doctor } from 'src/doctors/entities/doctor.entity';
   import {
     Column,
@@ -18,7 +17,7 @@
     cost: string;
     @Column()
     doctor_id: string;
-    @ManyToMany((type) => Doctor, (doctor) => doctor.doctor_id) //Создадим связь многие ко многим с сущностью article и свяжем с полем authors в статье
+    @ManyToMany((type) => Doctor, (doctor) => doctor.id) //Создадим связь многие ко многим с сущностью article и свяжем с полем authors в статье
   
     @JoinTable({
       //join таблица с названием author_article

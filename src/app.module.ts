@@ -1,16 +1,28 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { DoctorsModule } from './doctors/doctors.module';
 import { DatasourceModule } from './datasource/datasource.module';
 import { PatientsModule } from './patients/patients.module';
 import { AmenitiesModule } from './amenities/amenities.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { OrdersModule } from './orders/orders.module';
 
 @Module({
-  imports: [DoctorsModule, DatasourceModule, PatientsModule, AmenitiesModule],
+  imports: [
+    TypeOrmModule.forRoot({
+      // TypeORM configuration
+    }),
+    DatasourceModule, // Import the DataSourceModule here
+    DoctorsModule,
+    PatientsModule,
+    AmenitiesModule,
+    OrdersModule,
+  ],
   controllers: [],
   providers: [],
 })
 export class AppModule {}
+
+
 
 imports: [
     DoctorsModule,

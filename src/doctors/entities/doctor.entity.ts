@@ -10,11 +10,9 @@ import {
 @Entity('doctors') //указываем что это не просто клаcс, а сущность в рамках TypeOrm, в БД будет храниться как таблица
 export class Doctor {
   @PrimaryGeneratedColumn() //колонка - идентификатор, значение генерируется автоматически
-  doctor_id: number;
+  id: number;
   @Column({}) //колонка таблицы, сюда можно добавить большое количество параметров для БД, например тип, уникальность, триггер и т.д.
   fullname: string;
-  @Column()
-  position: string;
   @Column()
   amenity: string;
   @ManyToMany((type) => Amenity, (amenity) => amenity.amenity_id) //Создадим связь многие ко многим с сущностью article и свяжем с полем authors в статье

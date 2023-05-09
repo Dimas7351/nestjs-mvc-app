@@ -14,7 +14,7 @@ export class PatientsService {
     findOne(id: number) {
         return this.datasourceService
             .getPatients()
-            .find((patient) => patient.id === id);
+            .find((patient) => patient.patient_id === id);
         }
     
     findAll(): Patient[] {
@@ -24,7 +24,7 @@ export class PatientsService {
     update(id: number, updatedPatient: Patient) {
         const index = this.datasourceService
             .getPatients()
-            .findIndex((patient) => patient.id === id);
+            .findIndex((patient) => patient.patient_id === id);
         this.datasourceService.getPatients()[index] = updatedPatient;
         return this.datasourceService.getPatients()[index];
         }
@@ -32,7 +32,7 @@ export class PatientsService {
     remove(id: number) {
         const index = this.datasourceService
             .getPatients()
-            .findIndex((patient) => patient.id === id);
+            .findIndex((patient) => patient.patient_id === id);
         this.datasourceService.getPatients().splice(index, 1);
         return HttpStatus.OK;
         }

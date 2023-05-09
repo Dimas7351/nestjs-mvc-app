@@ -6,13 +6,13 @@ import { Order } from 'src/orders/entities/order.entity'
 
 @Injectable()
 export class DatasourceService {
-  private authors: Doctor[] = [];
+  private doctors: Doctor[] = [];
   private patients: Patient[] = [];
   private amenities: Amenity[] = [];
   private orders: Order[] = [];
 
   getDoctors(): Doctor[] {
-    return this.authors;
+    return this.doctors;
   }
 
   getPatients(): Patient[] {
