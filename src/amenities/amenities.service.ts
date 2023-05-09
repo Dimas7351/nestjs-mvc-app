@@ -14,7 +14,7 @@ export class AmenitiesService {
     findOne(id: number) {
         return this.datasourceService
             .getAmenities()
-            .find((amenity) => amenity.id === id);
+            .find((amenity) => amenity.amenity_id === id);
         }
     
     findAll(): Amenity[] {
@@ -24,7 +24,7 @@ export class AmenitiesService {
     update(id: number, updatedAmenity: Amenity) {
         const index = this.datasourceService
             .getAmenities()
-            .findIndex((amenity) => amenity.id === id);
+            .findIndex((amenity) => amenity.amenity_id === id);
         this.datasourceService.getAmenities()[index] = updatedAmenity;
         return this.datasourceService.getAmenities()[index];
         }
@@ -32,7 +32,7 @@ export class AmenitiesService {
     remove(id: number) {
         const index = this.datasourceService
             .getAmenities()
-            .findIndex((amenity) => amenity.id === id);
+            .findIndex((amenity) => amenity.amenity_id === id);
         this.datasourceService.getAmenities().splice(index, 1);
         return HttpStatus.OK;
         }
