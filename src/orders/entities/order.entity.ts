@@ -1,10 +1,10 @@
 import { Patient } from 'src/patients/entities/patient.entity';
 import { Doctor } from 'src/doctors/entities/doctor.entity';
 import { Amenity } from 'src/amenities/entities/amenity.entity';
-import { Entity, Column, ManyToOne, ManyToMany, PrimaryGeneratedColumn, JoinTable } from 'typeorm';
+import { Entity, Column, ManyToOne, ManyToMany, PrimaryGeneratedColumn, JoinTable, JoinColumn } from 'typeorm';
 
 
-@Entity()
+@Entity('orders')
 export class Order {
 
   @PrimaryGeneratedColumn() //колонка - идентификатор, значение генерируется автоматически
@@ -33,3 +33,5 @@ export class Order {
 
 
 }
+
+

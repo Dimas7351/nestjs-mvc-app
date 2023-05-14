@@ -2,39 +2,48 @@ import { Injectable } from '@nestjs/common';
 import { Amenity } from 'src/amenities/entities/amenity.entity';
 import { DatasourceService } from 'src/datasource/datasource.service';
 import { HttpStatus } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import {Repository} from 'typeorm'
+
+
 
 @Injectable()
 export class AmenitiesService {
-    constructor(private readonly datasourceService: DatasourceService) {}
+  constructor(
+    @InjectRepository(Amenity)
+    private readonly amenityRepository: Repository<Amenity>,
+  ) {}
 
-    create(amenity: Amenity) {
-        this.datasourceService.getAmenities().push(amenity);
-        return amenity;}
+  async create(): Promise<Amenity> {
+    const amenity = this.amenityRepository.create();
+    return this.amenityRepository.save(amenity);
+  }
 
-    findOne(id: number) {
-        return this.datasourceService
-            .getAmenities()
-            .find((amenity) => amenity.amenity_id === id);
-        }
-    
-    findAll(): Amenity[] {
-        return this.datasourceService.getAmenities();
-        }
+  findOne(id: number): Promise<Amenity> {
+    return this.amenityRepository.findOne({
+      where: { id },
+      relations: { doctors: true },
+    });
+  }
 
-    update(id: number, updatedAmenity: Amenity) {
-        const index = this.datasourceService
-            .getAmenities()
-            .findIndex((amenity) => amenity.amenity_id === id);
-        this.datasourceService.getAmenities()[index] = updatedAmenity;
-        return this.datasourceService.getAmenities()[index];
-        }
+  async findAll(): Promise<Amenity[]> {
+    const amenities = await this.amenityRepository.find({
+      relations: {
+        doctors: true,
+      },
+    });
+    return amenities;
+  }
 
-    remove(id: number) {
-        const index = this.datasourceService
-            .getAmenities()
-            .findIndex((amenity) => amenity.amenity_id === id);
-        this.datasourceService.getAmenities().splice(index, 1);
-        return HttpStatus.OK;
-        }
 
+  async update(id: number, updateAmenity: Amenity) {
+    const amenity = await this.amenityRepository.findOne({ where: { id } });
+    amenity.name = updateAmenity.name;
+    await this.amenityRepository.save(amenity);
+    return amenity;
+  }
+
+  remove(id: number) {
+    this.amenityRepository.delete({ id });
+  }
 }

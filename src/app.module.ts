@@ -8,28 +8,12 @@ import { OrdersModule } from './orders/orders.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      // TypeORM configuration
-    }),
-    DatasourceModule, // Import the DataSourceModule here
     DoctorsModule,
     PatientsModule,
     AmenitiesModule,
     OrdersModule,
-  ],
-  controllers: [],
-  providers: [],
-})
-export class AppModule {}
-
-
-
-imports: [
-    DoctorsModule,
-    PatientsModule,
-    AmenitiesModule,
     DatasourceModule,
-    TypeOrmModule.forRoot({
+    TypeOrmModule.forRoot({c
       type: 'postgres', //тип подключаемой БД
       port: 5432, //порт
       username: 'education', //имя пользователя
@@ -39,4 +23,11 @@ imports: [
       logging: 'all', //включим логирование для удобства отслеживания процессов
 	  entities: ['dist/**/*.entity{.ts,.js}'], //указываем путь к сущностям
     }),
-  ]
+  ],
+  controllers: [],
+  providers: [],
+})
+export class AppModule {}
+
+
+

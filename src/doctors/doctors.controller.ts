@@ -7,6 +7,8 @@ import { Doctor } from './entities/doctor.entity';
 export class DoctorsController {
   constructor(private readonly doctorsService: DoctorsService) {}
 
+  
+
   @Get()
   findAll() {
     return this.doctorsService.findAll();

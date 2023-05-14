@@ -2,39 +2,47 @@ import { Injectable } from '@nestjs/common';
 import { DatasourceService } from 'src/datasource/datasource.service';
 import { HttpStatus } from '@nestjs/common';
 import { Patient } from './entities/patient.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import {Repository} from 'typeorm'
+
 
 @Injectable()
 export class PatientsService {
-    constructor(private readonly datasourceService: DatasourceService) {}
+  constructor(
+    @InjectRepository(Patient)
+    private readonly patientRepository: Repository<Patient>,
+  ) {}
 
-    create(patient: Patient) {
-        this.datasourceService.getPatients().push(patient);
-        return patient;}
+  async create(): Promise<Patient> {
+    const amenity = this.patientRepository.create();
+    return this.patientRepository.save(amenity);
+  }
 
-    findOne(id: number) {
-        return this.datasourceService
-            .getPatients()
-            .find((patient) => patient.patient_id === id);
-        }
-    
-    findAll(): Patient[] {
-        return this.datasourceService.getPatients();
-        }
+  findOne(id: number): Promise<Patient> {
+    return this.patientRepository.findOne({
+      where: { id },
+      relations: { orders: true },
+    });
+  }
 
-    update(id: number, updatedPatient: Patient) {
-        const index = this.datasourceService
-            .getPatients()
-            .findIndex((patient) => patient.patient_id === id);
-        this.datasourceService.getPatients()[index] = updatedPatient;
-        return this.datasourceService.getPatients()[index];
-        }
+  async findAll(): Promise<Patient[]> {
+    const patients = await this.patientRepository.find({
+      relations: {
+        orders: true,
+      },
+    });
+    return patients;
+  }
 
-    remove(id: number) {
-        const index = this.datasourceService
-            .getPatients()
-            .findIndex((patient) => patient.patient_id === id);
-        this.datasourceService.getPatients().splice(index, 1);
-        return HttpStatus.OK;
-        }
 
+  async update(id: number, updatePatient: Patient) {
+    const patient = await this.patientRepository.findOne({ where: { id } });
+    patient.fullname = updatePatient.fullname;
+    await this.patientRepository.save(patient);
+    return patient;
+  }
+
+  remove(id: number) {
+    this.patientRepository.delete({ id });
+  }
 }
