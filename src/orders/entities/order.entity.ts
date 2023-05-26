@@ -8,28 +8,31 @@ import { Entity, Column, ManyToOne, ManyToMany, PrimaryGeneratedColumn, JoinTabl
 export class Order {
 
   @PrimaryGeneratedColumn() //колонка - идентификатор, значение генерируется автоматически
-  order_id: number;
+  id: number;
 
   @ManyToOne(() => Amenity)
+  @JoinColumn({name: "amenity", referencedColumnName: 'id' })
   amenity: Amenity;
 
   @ManyToOne(() => Doctor)
+  @JoinColumn({name: "doctor", referencedColumnName: 'id' })
   doctor: Doctor;
 
   @ManyToOne(() => Patient)
+  @JoinColumn({name: "patient", referencedColumnName: 'id' })
   patient: Patient;
-
-  @Column()
-  serviceName: string;
 
   @Column()
   price: number;
 
-  @Column()
-  doctorName: string;
+  // @Column()
+  // serviceName: string;
 
-  @Column()
-  patientName: string;
+  // @Column()
+  // doctorName: string;
+
+  // @Column()
+  // patientName: string;
 
 
 }

@@ -24,8 +24,8 @@ export class Doctor {
 
   @JoinTable({
     //join таблица с названием author_article
-    name: 'amenities',
-    joinColumn: { name: 'id' }, //для связи с идентификатором автора
+    name: 'doctors_amenities',
+    joinColumn: { name: 'doctor_id' }, //для связи с идентификатором автора
     inverseJoinColumn: { name: 'amenity_id' }, //для связи с идентификатором статьи
   })
   amenities: Amenity[]; //объект, в котором будем автоматически получать все статьи автора

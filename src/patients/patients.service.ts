@@ -38,6 +38,8 @@ export class PatientsService {
   async update(id: number, updatePatient: Patient) {
     const patient = await this.patientRepository.findOne({ where: { id } });
     patient.fullname = updatePatient.fullname;
+    patient.age = updatePatient.age; // doesnt work
+    patient.mail = updatePatient.mail;
     await this.patientRepository.save(patient);
     return patient;
   }

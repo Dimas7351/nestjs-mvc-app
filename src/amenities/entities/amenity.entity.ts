@@ -25,7 +25,7 @@
   
     @JoinTable({
       //join таблица с названием author_article
-      name: 'doctors',
+      name: 'doctors_amenities',
       joinColumn: { name: 'amenity_id' }, //для связи с идентификатором автора
       inverseJoinColumn: { name: 'doctor_id' }, //для связи с идентификатором статьи
     })

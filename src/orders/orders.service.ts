@@ -14,7 +14,7 @@ export class OrdersService {
     findOne(id: number) {
         return this.datasourceService
             .getOrders()
-            .find((order) => order.order_id === id);
+            .find((order) => order.id === id);
         }
     
     findAll(): Order[] {
@@ -24,7 +24,7 @@ export class OrdersService {
     update(id: number, updatedOrder: Order) {
         const index = this.datasourceService
             .getOrders()
-            .findIndex((order) => order.order_id === id);
+            .findIndex((order) => order.id === id);
         this.datasourceService.getOrders()[index] = updatedOrder;
         return this.datasourceService.getOrders()[index];
         }
@@ -32,7 +32,7 @@ export class OrdersService {
     remove(id: number) {
         const index = this.datasourceService
             .getOrders()
-            .findIndex((order) => order.order_id === id);
+            .findIndex((order) => order.id === id);
         this.datasourceService.getOrders().splice(index, 1);
         return HttpStatus.OK;
         }
