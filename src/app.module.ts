@@ -13,7 +13,7 @@ import { OrdersModule } from './orders/orders.module';
     AmenitiesModule,
     OrdersModule,
     DatasourceModule,
-    TypeOrmModule.forRoot({c
+    TypeOrmModule.forRoot({
       type: 'postgres', //тип подключаемой БД
       port: 5432, //порт
       username: 'education', //имя пользователя

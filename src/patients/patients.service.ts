@@ -13,9 +13,9 @@ export class PatientsService {
     private readonly patientRepository: Repository<Patient>,
   ) {}
 
-  async create(): Promise<Patient> {
-    const amenity = this.patientRepository.create();
-    return this.patientRepository.save(amenity);
+  async create(createPatient: Patient): Promise<Patient> {
+    const patient = this.patientRepository.create(createPatient);
+    return this.patientRepository.save(patient);
   }
 
   findOne(id: number): Promise<Patient> {
