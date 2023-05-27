@@ -14,8 +14,8 @@ export class AmenitiesService {
     private readonly amenityRepository: Repository<Amenity>,
   ) {}
 
-  async create(): Promise<Amenity> {
-    const amenity = this.amenityRepository.create();
+  async create(createAmenity: Amenity): Promise<Amenity> {
+    const amenity = this.amenityRepository.create(createAmenity);
     return this.amenityRepository.save(amenity);
   }
 

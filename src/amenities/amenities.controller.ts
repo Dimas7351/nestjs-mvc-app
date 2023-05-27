@@ -26,7 +26,7 @@ findOne(@Param('id') id: string) {
 
   @Post()
   create(@Body() createAmenity: Amenity) {
-    return this.amenitiesService.create();
+    return this.amenitiesService.create(createAmenity);
   }
 
 
