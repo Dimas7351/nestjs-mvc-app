@@ -1,11 +1,11 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class Initial1685190356554 implements MigrationInterface {
-    name = 'Initial1685190356554'
+export class Initial1685273909981 implements MigrationInterface {
+    name = 'Initial1685273909981'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "patients" ("id" SERIAL NOT NULL, "fullname" character varying NOT NULL, "age" integer NOT NULL, "mail" character varying NOT NULL, CONSTRAINT "UQ_a7f0b9fcbb3469d5ec0b0aceaa7" UNIQUE ("id"), CONSTRAINT "PK_a7f0b9fcbb3469d5ec0b0aceaa7" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TABLE "orders" ("id" SERIAL NOT NULL, "amenityName" character varying NOT NULL, "doctorName" character varying NOT NULL, "patientName" character varying NOT NULL, "price" integer NOT NULL, "amenityId" integer, "doctorId" integer, "patientId" integer, CONSTRAINT "PK_710e2d4957aa5878dfe94e4ac2f" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "orders" ("id" SERIAL NOT NULL, "amenityId" integer, "doctorId" integer, "patientId" integer, CONSTRAINT "PK_710e2d4957aa5878dfe94e4ac2f" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "doctors" ("id" SERIAL NOT NULL, "fullname" character varying NOT NULL, "specialization" character varying NOT NULL, CONSTRAINT "UQ_8207e7889b50ee3695c2b8154ff" UNIQUE ("id"), CONSTRAINT "PK_8207e7889b50ee3695c2b8154ff" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "amenities" ("id" SERIAL NOT NULL, "name" character varying NOT NULL, "cost" integer NOT NULL, CONSTRAINT "UQ_c0777308847b3556086f2fb233e" UNIQUE ("id"), CONSTRAINT "PK_c0777308847b3556086f2fb233e" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "doctors_amenities" ("doctor_id" integer NOT NULL, "amenity_id" integer NOT NULL, CONSTRAINT "PK_1bc28384aa69f9a83a8c8827b71" PRIMARY KEY ("doctor_id", "amenity_id"))`);

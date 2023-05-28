@@ -15,26 +15,14 @@ export class Order {
   @JoinColumn({referencedColumnName: 'id' })
   amenity: Amenity;
 
-  @Column()
-  amenityName: string;
-
   @ManyToOne(() => Doctor)
   @JoinColumn({referencedColumnName: 'id' })
   doctor: Doctor;
 
-  @Column()
-  doctorName: string;
 
   @ManyToOne(() => Patient)  //Задаем пациента
   @JoinColumn({referencedColumnName: 'id' })
   patient: Patient;
-
-  @Column()
-  patientName: string;
-
-  @Column()
-  price: number;
-
   
 
 

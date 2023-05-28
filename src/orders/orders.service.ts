@@ -8,6 +8,7 @@ import { AmenitiesService } from 'src/amenities/amenities.service';
 import { Repository } from 'typeorm';
 import { DoctorsService } from 'src/doctors/doctors.service';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Patient } from 'src/patients/entities/patient.entity';
 
 @Injectable()
 export class OrdersService {
@@ -19,8 +20,6 @@ export class OrdersService {
         private readonly orderRepository: Repository <Order>) {}
 
     async create(orderDto: CreateOrderDto): Promise<Order> {
-       // this.datasourceService.getOrders().push(order); //считываем patient и ameninty
-        //return order;
         const order = this.orderRepository.create();
         const { patientId, amenityId, doctorId } = orderDto;
 
@@ -28,12 +27,16 @@ export class OrdersService {
         const patient = await this.patientsService.findOne(patientId);
         const amenity = await this.amenitiesService.findOne(amenityId);
         const doctor = await this.doctorsService.findOne(doctorId);
+
+        order.amenity = amenity;
+        order.patient = patient;
+        order.doctor = doctor;
     
         // Создать экземпляр заказа с использованием полученных данных
-        order.patientName = patient.fullname;
-        order.amenityName = amenity.name;
-        order.doctorName = doctor.fullname;
-        order.price = amenity.cost;
+        // order.patientName = patient.fullname;
+        // order.amenityName = amenity.name;
+        // order.doctorName = doctor.fullname;
+        // order.price = amenity.cost;
     
         // Сохранить заказ в базе данных
         await this.orderRepository.save(order);
@@ -48,9 +51,20 @@ export class OrdersService {
             .find((order) => order.id === id);
         }
     
-    findAll(): Order[] {
-        return this.datasourceService.getOrders();
-        }
+    // findAll(): Order[] {
+    //     return this.datasourceService.getOrders();
+    //     }
+
+    async findAll(): Promise<Order[]> {
+        const patients = await this.orderRepository.find({
+          relations: {
+            doctor: true,
+            amenity:true,
+            patient:true
+          },
+        });
+        return patients;
+      }
 
     update(id: number, updatedOrder: Order) {
         const index = this.datasourceService
@@ -61,11 +75,7 @@ export class OrdersService {
         }
 
     remove(id: number) {
-        const index = this.datasourceService
-            .getOrders()
-            .findIndex((order) => order.id === id);
-        this.datasourceService.getOrders().splice(index, 1);
-        return HttpStatus.OK;
+        this.orderRepository.delete(id);
         }
 
 }
