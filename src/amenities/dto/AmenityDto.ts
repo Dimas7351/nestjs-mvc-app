@@ -7,5 +7,7 @@ export class CreateAmenityDto {
   @IsInt()
   cost: number;
 
-  doctors: number[];
+  @IsInt()
+  doctorId: number;
+//   doctors: number[];
 }

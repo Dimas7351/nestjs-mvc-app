@@ -11,20 +11,28 @@ export class Order {
   @PrimaryGeneratedColumn() //колонка - идентификатор, значение генерируется автоматически
   id: number;
 
-  @ManyToOne(() => Amenity)  //Задаем услугу
-  @JoinColumn({referencedColumnName: 'id' })
-  amenity: Amenity;
+  // @ManyToOne(() => Amenity)  //Задаем услугу
+  // @JoinColumn({referencedColumnName: 'id' })
+  // amenity: Amenity;
 
-  @ManyToOne(() => Doctor)
-  @JoinColumn({referencedColumnName: 'id' })
-  doctor: Doctor;
+  // @ManyToOne(() => Doctor)
+  // @JoinColumn({referencedColumnName: 'id' })
+  // doctor: Doctor;
 
 
   @ManyToOne(() => Patient)  //Задаем пациента
-  @JoinColumn({referencedColumnName: 'id' })
+  @JoinColumn({name: "patientId", referencedColumnName: 'id' })
   patient: Patient;
   
-
+  @ManyToMany((type) => Amenity, (amenity) => amenity.id) //Создадим связь многие ко многим с сущностью article и свяжем с полем authors в статье
+  
+    @JoinTable({
+      //join таблица с названием author_article
+      name: 'orders_amenities',
+      joinColumn: { name: 'order_id' }, //для связи с идентификатором автора
+      inverseJoinColumn: { name: 'amenity_id' }, //для связи с идентификатором статьи
+    })
+    amenities: Amenity[]; 
 
 }
 

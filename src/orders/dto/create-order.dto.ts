@@ -1,12 +1,10 @@
-import { IsInt } from 'class-validator';
+import { IsArray, IsInt } from 'class-validator';
+import { Doctor } from 'src/doctors/entities/doctor.entity';
 
 export class CreateOrderDto {
   @IsInt()
   patientId: number;
 
-  @IsInt()
-  amenityId: number;
-
-  @IsInt()
-  doctorId: number;
+  @IsArray()
+  amenities: number[];
 }

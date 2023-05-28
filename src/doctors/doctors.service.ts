@@ -38,12 +38,6 @@ export class DoctorsService {
     return doctors;
   }
 
-  async findDoct(ids: number[]): Promise<Doctor[]> {
-    const doctors = await this.doctorRepository.createQueryBuilder('doctor')
-      .where('doctor.id IN (:...ids)', { ids })
-      .getMany();
-    return doctors;
-  }
 
   async findIncomplete(): Promise<IncompleteDoctorDto[]> {
     const doctors = await this.doctorRepository.find();

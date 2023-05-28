@@ -5,10 +5,12 @@ import { HttpStatus } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { PatientsService } from 'src/patients/patients.service';
 import { AmenitiesService } from 'src/amenities/amenities.service';
-import { Repository } from 'typeorm';
+import { Repository, In } from 'typeorm';
 import { DoctorsService } from 'src/doctors/doctors.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Patient } from 'src/patients/entities/patient.entity';
+import { Doctor } from 'src/doctors/entities/doctor.entity';
+import { Amenity } from 'src/amenities/entities/amenity.entity';
 
 @Injectable()
 export class OrdersService {
@@ -17,21 +19,25 @@ export class OrdersService {
         private readonly amenitiesService: AmenitiesService,
         private readonly doctorsService: DoctorsService,
         @InjectRepository(Order)
-        private readonly orderRepository: Repository <Order>) {}
+        private readonly orderRepository: Repository <Order>,
+        @InjectRepository(Amenity)
+        private readonly amenityRepository: Repository<Amenity>) {}
 
     async create(orderDto: CreateOrderDto): Promise<Order> {
         const order = this.orderRepository.create();
-        const { patientId, amenityId, doctorId } = orderDto;
 
         // Получить данные пациента и услуги по их ID
-        const patient = await this.patientsService.findOne(patientId);
-        const amenity = await this.amenitiesService.findOne(amenityId);
-        const doctor = await this.doctorsService.findOne(doctorId);
+        const patient = await this.patientsService.findOne(orderDto.patientId);
+        // const doctor = await this.doctorsService.findOne(doctorId);
 
-        order.amenity = amenity;
         order.patient = patient;
-        order.doctor = doctor;
+        // order.doctor = doctor;
     
+          const amenities = await this.amenityRepository.find({
+            where:{
+            id: In(orderDto.amenities),
+        }});
+          order.amenities = amenities; 
         // Создать экземпляр заказа с использованием полученных данных
         // order.patientName = patient.fullname;
         // order.amenityName = amenity.name;
@@ -44,6 +50,21 @@ export class OrdersService {
     
     
     }
+
+   // async create(createAmenity: CreateAmenityDto): Promise<Amenity> {
+        //   const amenity = this.amenityRepository.create();
+        //   amenity.name = createAmenity.name;
+        //   amenity.cost = createAmenity.cost;
+        
+        //   const doctors = await this.doctorRepository.find({
+        //     where:{
+        //     id: In(createAmenity.doctors),
+        // }});
+        //   amenity.doctors = doctors; 
+      
+        //   await this.amenityRepository.save(amenity);
+        //   return amenity;
+        // }
 
     findOne(id: number) {
         return this.datasourceService
@@ -58,8 +79,8 @@ export class OrdersService {
     async findAll(): Promise<Order[]> {
         const patients = await this.orderRepository.find({
           relations: {
-            doctor: true,
-            amenity:true,
+            //doctor: true,
+            amenities:true,
             patient:true
           },
         });

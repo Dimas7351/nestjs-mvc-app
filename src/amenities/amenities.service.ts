@@ -22,35 +22,43 @@ export class AmenitiesService {
 
 
   
-  async create(createAmenity: CreateAmenityDto): Promise<Amenity> {
+  // async create(createAmenity: CreateAmenityDto): Promise<Amenity> {
+  //   const amenity = this.amenityRepository.create();
+  //   amenity.name = createAmenity.name;
+  //   amenity.cost = createAmenity.cost;
+  
+  //   const doctors = await this.doctorRepository.find({
+  //     where:{
+  //     id: In(createAmenity.doctors),
+  // }});
+  //   amenity.doctors = doctors; 
+
+  //   await this.amenityRepository.save(amenity);
+  //   return amenity;
+  // }
+  
+
+ async create(createAmenity: CreateAmenityDto): Promise<Amenity> {
     const amenity = this.amenityRepository.create();
     amenity.name = createAmenity.name;
     amenity.cost = createAmenity.cost;
-  
-    const doctors = await this.doctorRepository.find({
-      where:{
-      id: In(createAmenity.doctors),
-  }});
-    amenity.doctors = doctors; 
-
+    const doctor = await this.doctorsService.findOne(createAmenity.doctorId);
+    amenity.doctor = doctor;
     await this.amenityRepository.save(amenity);
     return amenity;
   }
-  
-
-
 
   findOne(id: number): Promise<Amenity> {
     return this.amenityRepository.findOne({
       where: { id },
-      relations: { doctors: true },
+      relations: { orders: true },
     });
   }
 
   async findAll(): Promise<Amenity[]> {
     const amenities = await this.amenityRepository.find({
       relations: {
-        doctors: true,
+        orders: true,
       },
     });
     return amenities;
@@ -60,13 +68,7 @@ export class AmenitiesService {
   async update(id: number, updateAmenity: CreateAmenityDto) {
     const amenity = await this.amenityRepository.findOne({ where: { id } });
     amenity.name = updateAmenity.name;
-    amenity.cost = updateAmenity.cost;
-  
-    const doctors = await this.doctorRepository.find({
-      where:{
-      id: In(updateAmenity.doctors),
-  }});
-    amenity.doctors = doctors; 
+    amenity.cost = updateAmenity.cost;  
 
     await this.amenityRepository.save(amenity);
     return amenity;
