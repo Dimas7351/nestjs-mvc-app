@@ -1,6 +1,7 @@
 import { AmenitiesService } from './amenities.service';
 import { Body, Controller, Delete, Get, Param, Post, Put} from '@nestjs/common';
 import { Amenity } from './entities/amenity.entity';
+import { CreateAmenityDto } from './dto/AmenityDto';
 
 
 @Controller('amenities')
@@ -20,12 +21,12 @@ findOne(@Param('id') id: string) {
 }
 
 @Put(':id')
-  update(@Param('id') id: string, @Body() updateAmenity: Amenity) {
+  update(@Param('id') id: string, @Body() updateAmenity: CreateAmenityDto) {
     return this.amenitiesService.update(+id, updateAmenity);
   }
 
   @Post()
-  create(@Body() createAmenity: Amenity) {
+  create(@Body() createAmenity: CreateAmenityDto) {
     return this.amenitiesService.create(createAmenity);
   }
 

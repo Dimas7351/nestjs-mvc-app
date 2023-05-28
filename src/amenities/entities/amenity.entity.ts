@@ -18,7 +18,7 @@
     @Column({}) //колонка таблицы, сюда можно добавить большое количество параметров для БД, например тип, уникальность, триггер и т.д.
     name: string;
     @Column()
-    cost: string;
+    cost: number;
     @OneToMany(() => Order, (order) => order.amenity)
     orders: Order[];
     @ManyToMany((type) => Doctor, (doctor) => doctor.amenities) //Создадим связь многие ко многим с сущностью article и свяжем с полем authors в статье
@@ -29,6 +29,6 @@
       joinColumn: { name: 'amenity_id' }, //для связи с идентификатором автора
       inverseJoinColumn: { name: 'doctor_id' }, //для связи с идентификатором статьи
     })
-    doctors: Doctor[]; //объект, в котором будем автоматически получать все статьи автора
+    doctors: Doctor[]; 
     
   }

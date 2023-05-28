@@ -17,6 +17,7 @@ export class DoctorsService {
   async create(doctorDto: CreateDoctorDto): Promise<Doctor> {
     const doctor = this.doctorRepository.create();
     doctor.fullname = doctorDto.fullname;
+    doctor.specialization = doctorDto.specialization;
     await this.doctorRepository.save(doctor);
     return doctor;
   }
@@ -34,6 +35,13 @@ export class DoctorsService {
         amenities: true,
       },
     });
+    return doctors;
+  }
+
+  async findDoct(ids: number[]): Promise<Doctor[]> {
+    const doctors = await this.doctorRepository.createQueryBuilder('doctor')
+      .where('doctor.id IN (:...ids)', { ids })
+      .getMany();
     return doctors;
   }
 
@@ -58,3 +66,7 @@ export class DoctorsService {
     this.doctorRepository.delete({ id });
   }
 }
+function In(ids: number[]): number | import("typeorm").FindOperator<number> {
+  throw new Error('Function not implemented.');
+}
+

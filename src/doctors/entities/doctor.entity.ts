@@ -16,8 +16,10 @@ import {
 export class Doctor {
   @PrimaryGeneratedColumn() //колонка - идентификатор, значение генерируется автоматически
   id: number;
-  @Column({}) //колонка таблицы, сюда можно добавить большое количество параметров для БД, например тип, уникальность, триггер и т.д.
+  @Column({}) 
   fullname: string;
+  @Column({}) 
+  specialization: string;
   @OneToMany(() => Order, (order) => order.doctor)
   orders: Order[];
   @ManyToMany((type) => Amenity, (amenity) => amenity.id) //Создадим связь многие ко многим с сущностью article и свяжем с полем authors в статье

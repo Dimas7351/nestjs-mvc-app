@@ -1,2 +1,4 @@
 export class CreateDoctorDto {
-    fullname: string}
+    fullname: string;
+    specialization: string;
+    }

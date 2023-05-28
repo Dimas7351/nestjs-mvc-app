@@ -5,10 +5,11 @@ import { AmenitiesService } from './amenities.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Amenity } from './entities/amenity.entity'
 import { Doctor } from 'src/doctors/entities/doctor.entity'
+import { DoctorsService } from 'src/doctors/doctors.service';
 
 @Module({
   controllers: [AmenitiesController],
-  providers: [AmenitiesService],
+  providers: [AmenitiesService, DoctorsService],
   imports: [DatasourceModule,
   TypeOrmModule.forFeature([Amenity,Doctor])],
 })
