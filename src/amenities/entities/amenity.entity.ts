@@ -1,4 +1,5 @@
-  import { Doc, doc } from 'prettier';
+  import { IsString, IsNumber } from 'class-validator';
+import { Doc, doc } from 'prettier';
 import { Doctor } from 'src/doctors/entities/doctor.entity';
   import { Order } from 'src/orders/entities/order.entity';
   import {
@@ -18,8 +19,12 @@ import { Doctor } from 'src/doctors/entities/doctor.entity';
   export class Amenity {
     @PrimaryGeneratedColumn({ type: 'integer', name: 'id'}) 
     id: number;
+
+    @IsString()
     @Column({}) 
     name: string;
+
+    @IsNumber()
     @Column()
     cost: number;
 
