@@ -21,22 +21,7 @@ export class AmenitiesService {
   ) {}
 
 
-  
-  // async create(createAmenity: CreateAmenityDto): Promise<Amenity> {
-  //   const amenity = this.amenityRepository.create();
-  //   amenity.name = createAmenity.name;
-  //   amenity.cost = createAmenity.cost;
-  
-  //   const doctors = await this.doctorRepository.find({
-  //     where:{
-  //     id: In(createAmenity.doctors),
-  // }});
-  //   amenity.doctors = doctors; 
 
-  //   await this.amenityRepository.save(amenity);
-  //   return amenity;
-  // }
-  
 
  async create(createAmenity: CreateAmenityDto): Promise<Amenity> {
     const amenity = this.amenityRepository.create();

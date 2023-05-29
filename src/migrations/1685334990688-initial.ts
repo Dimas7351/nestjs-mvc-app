@@ -1,13 +1,13 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class Initial1685284931433 implements MigrationInterface {
-    name = 'Initial1685284931433'
+export class Initial1685334990688 implements MigrationInterface {
+    name = 'Initial1685334990688'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`CREATE TABLE "patients" ("id" SERIAL NOT NULL, "fullname" character varying NOT NULL, "age" integer NOT NULL, "mail" character varying NOT NULL, CONSTRAINT "UQ_a7f0b9fcbb3469d5ec0b0aceaa7" UNIQUE ("id"), CONSTRAINT "PK_a7f0b9fcbb3469d5ec0b0aceaa7" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TABLE "orders" ("id" SERIAL NOT NULL, "patientId" integer, CONSTRAINT "PK_710e2d4957aa5878dfe94e4ac2f" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TABLE "amenities" ("id" SERIAL NOT NULL, "name" character varying NOT NULL, "cost" integer NOT NULL, "doctorId" integer, CONSTRAINT "UQ_c0777308847b3556086f2fb233e" UNIQUE ("id"), CONSTRAINT "PK_c0777308847b3556086f2fb233e" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "doctors" ("id" SERIAL NOT NULL, "fullname" character varying NOT NULL, "specialization" character varying NOT NULL, CONSTRAINT "UQ_8207e7889b50ee3695c2b8154ff" UNIQUE ("id"), CONSTRAINT "PK_8207e7889b50ee3695c2b8154ff" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "patients" ("id" SERIAL NOT NULL, "fullname" character varying NOT NULL, "age" integer NOT NULL, "mail" character varying NOT NULL, CONSTRAINT "UQ_a7f0b9fcbb3469d5ec0b0aceaa7" UNIQUE ("id"), CONSTRAINT "PK_a7f0b9fcbb3469d5ec0b0aceaa7" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "orders" ("id" SERIAL NOT NULL, "date" TIMESTAMP NOT NULL, "totalCost" integer NOT NULL, "patientId" integer, CONSTRAINT "PK_710e2d4957aa5878dfe94e4ac2f" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "amenities" ("id" SERIAL NOT NULL, "name" character varying NOT NULL, "cost" integer NOT NULL, "doctorId" integer, CONSTRAINT "UQ_c0777308847b3556086f2fb233e" UNIQUE ("id"), CONSTRAINT "PK_c0777308847b3556086f2fb233e" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "orders_amenities" ("order_id" integer NOT NULL, "amenity_id" integer NOT NULL, CONSTRAINT "PK_a08edf08b3967bb6ed30f1dec49" PRIMARY KEY ("order_id", "amenity_id"))`);
         await queryRunner.query(`CREATE INDEX "IDX_9630e9d56f7ac4c9ea38c15a7f" ON "orders_amenities" ("order_id") `);
         await queryRunner.query(`CREATE INDEX "IDX_e8a8a3ff3201e6346ffaa0b92c" ON "orders_amenities" ("amenity_id") `);
@@ -25,10 +25,10 @@ export class Initial1685284931433 implements MigrationInterface {
         await queryRunner.query(`DROP INDEX "public"."IDX_e8a8a3ff3201e6346ffaa0b92c"`);
         await queryRunner.query(`DROP INDEX "public"."IDX_9630e9d56f7ac4c9ea38c15a7f"`);
         await queryRunner.query(`DROP TABLE "orders_amenities"`);
-        await queryRunner.query(`DROP TABLE "doctors"`);
         await queryRunner.query(`DROP TABLE "amenities"`);
         await queryRunner.query(`DROP TABLE "orders"`);
         await queryRunner.query(`DROP TABLE "patients"`);
+        await queryRunner.query(`DROP TABLE "doctors"`);
     }
 
 }

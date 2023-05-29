@@ -52,6 +52,7 @@ export class DoctorsService {
   async update(id: number, updateDoctor: Doctor) {
     const doctor = await this.doctorRepository.findOne({ where: { id } });
     doctor.fullname = updateDoctor.fullname;
+    doctor.specialization = updateDoctor.specialization;
     await this.doctorRepository.save(doctor);
     return doctor;
   }

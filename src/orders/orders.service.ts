@@ -25,46 +25,23 @@ export class OrdersService {
 
     async create(orderDto: CreateOrderDto): Promise<Order> {
         const order = this.orderRepository.create();
-
-        // Получить данные пациента и услуги по их ID
         const patient = await this.patientsService.findOne(orderDto.patientId);
-        // const doctor = await this.doctorsService.findOne(doctorId);
-
+        order.date = orderDto.date;
         order.patient = patient;
-        // order.doctor = doctor;
     
           const amenities = await this.amenityRepository.find({
             where:{
             id: In(orderDto.amenities),
         }});
           order.amenities = amenities; 
-        // Создать экземпляр заказа с использованием полученных данных
-        // order.patientName = patient.fullname;
-        // order.amenityName = amenity.name;
-        // order.doctorName = doctor.fullname;
-        // order.price = amenity.cost;
-    
-        // Сохранить заказ в базе данных
+          const totalCost = amenities.reduce((sum, amenity) => sum + amenity.cost, 0);
+          order.totalCost = totalCost;
+
         await this.orderRepository.save(order);
         return order;
-    
-    
+     
     }
 
-   // async create(createAmenity: CreateAmenityDto): Promise<Amenity> {
-        //   const amenity = this.amenityRepository.create();
-        //   amenity.name = createAmenity.name;
-        //   amenity.cost = createAmenity.cost;
-        
-        //   const doctors = await this.doctorRepository.find({
-        //     where:{
-        //     id: In(createAmenity.doctors),
-        // }});
-        //   amenity.doctors = doctors; 
-      
-        //   await this.amenityRepository.save(amenity);
-        //   return amenity;
-        // }
 
     findOne(id: number) {
         return this.datasourceService
@@ -72,14 +49,9 @@ export class OrdersService {
             .find((order) => order.id === id);
         }
     
-    // findAll(): Order[] {
-    //     return this.datasourceService.getOrders();
-    //     }
-
     async findAll(): Promise<Order[]> {
         const patients = await this.orderRepository.find({
           relations: {
-            //doctor: true,
             amenities:true,
             patient:true
           },

@@ -2,7 +2,7 @@ import { AmenitiesService } from './amenities.service';
 import { Body, Controller, Delete, Get, Param, Post, Put, UseFilters} from '@nestjs/common';
 import { Amenity } from './entities/amenity.entity';
 import { CreateAmenityDto } from './dto/AmenityDto';
-import { ValidationExceptionFilter } from 'src/ex_filter';
+// import { ValidationExceptionFilter } from 'src/ex_filter';
 
 
 @Controller('amenities')
@@ -26,7 +26,7 @@ findOne(@Param('id') id: string) {
     return this.amenitiesService.update(+id, updateAmenity);
   }
 
-  @UseFilters(ValidationExceptionFilter)
+  // @UseFilters(ValidationExceptionFilter)
   @Post()
   create(@Body() createAmenity: CreateAmenityDto) {
     return this.amenitiesService.create(createAmenity);
